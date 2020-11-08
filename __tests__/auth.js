@@ -53,5 +53,11 @@ describe("Login route tests", ()=>{
         expect(res.status).toBe(401);
         res = await request(server).post("/api/auth/login").send({username: "Userthatdoesntexist", password: "password"});
         expect(res.status).toBe(401);
-    })
+    });
+
+    it("Should return token if login successful", async()=>{
+        const res = await request(server).post("/api/auth/login").send({username: "Bob", password: "password"});
+        console.log(res.body)
+        expect(res.body.token).toBeDefined();
+    });
 });
