@@ -49,7 +49,7 @@ describe("Login route tests", ()=>{
     });
 
     it("Should return 401 if username or password is incorrect", async()=>{
-        let res = await request(server).post("/api/auth/login").send({usernme: "Bob", password: "nottherightpassword"});
+        let res = await request(server).post("/api/auth/login").send({username: "Bob", password: "nottherightpassword"});
         expect(res.status).toBe(401);
         res = await request(server).post("/api/auth/login").send({username: "Userthatdoesntexist", password: "password"});
     })
