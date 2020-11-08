@@ -2,14 +2,14 @@ const request = require("supertest");
 const server = require("../api/server");
 const db = require("../database/dbConfig");
 
+afterAll(()=>{
+    db.destroy();
+})
+
 describe("Register route tests", ()=>{
     beforeEach(async ()=>{
         await db.seed.run();
     });
-
-    afterAll(()=>{
-        db.destroy();
-    })
 
     it("Should return 400 if username and password not given", async()=>{
         let res = await request(server).post("/api/auth/register").send({});
