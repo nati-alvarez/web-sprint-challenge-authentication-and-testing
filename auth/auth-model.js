@@ -1,5 +1,5 @@
-const db = require("db");
-const bcrypt = require("bcyrptjs");
+const db = require("../database/dbConfig");
+const bcrypt = require("bcryptjs");
 module.exports = {
     getByUsername,
     createUser
@@ -11,5 +11,5 @@ async function getByUsername(username){
 
 async function createUser(username, password){
     const hash = bcrypt.hashSync(password, 14);
-    return await db("users").insert({username, hash});
+    return await db("users").insert({username, password: hash});
 }
