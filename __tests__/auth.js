@@ -34,4 +34,23 @@ describe("Register route tests", ()=>{
 
         expect(res.status).toBe(201);
     });
-})
+});
+
+describe("Login route tests", ()=>{
+    it("Should return 400 if username or password not given", async()=>{
+        let res = await request(server).post("/api/auth/login").send({});
+        expect(res.status).toBe(400);
+
+        res = await request(server).post("/api/auth/login").send({username: "Username"});
+        expect(res.status).toBe(400);
+
+        res = await request(server).post("/api/auth/login").send({password: "password"});
+        expect(res.status).toBe(400);
+    });
+
+    it("Should return 401 if username or password is incorrect", async()=>{
+        let res = await request(server).post("/api/auth/login").send({usernme: "Bob", password: "nottherightpassword"});
+        expect(res.status).toBe(401);
+        res = await request(server).post("/api/auth/login").send({username: "Userthatdoesntexist", password: "password"});
+    })
+});
