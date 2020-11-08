@@ -18,8 +18,15 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
+  const {username, password} = req.body;
+  if(!username || !password) return res.status(400).json({message: "Username and password required"});
 
+  const user = await authModel.getByUsername(username);
+  if(!user) return res.status(401).json({message: "Incorrect username or password"});
+  if(!bcrypt.compareSync(password, user.password)) return res.status(401).json({message: "Incorrect username or password"});
+
+  res.status(200).json(user);
 });
 
 module.exports = router;

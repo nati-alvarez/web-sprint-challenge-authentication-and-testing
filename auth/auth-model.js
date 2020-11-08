@@ -1,5 +1,6 @@
 const db = require("../database/dbConfig");
 const bcrypt = require("bcryptjs");
+
 module.exports = {
     getByUsername,
     createUser
