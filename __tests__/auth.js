@@ -4,7 +4,7 @@ const db = require("../database/dbConfig");
 
 describe("Register route tests", ()=>{
     beforeEach(async ()=>{
-        await db("users").truncate();
+        await db.seed.run();
     });
 
     afterAll(()=>{
