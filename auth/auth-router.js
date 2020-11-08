@@ -4,11 +4,13 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 router.post('/register', async (req, res) => {
-  const {username, password} = req.body;
-  if(!username || !password) return res.status(400).json({message: "Username and password required"});
-  
   try {
+    const {username, password} = req.body;
+    if(!username) return res.status(400).json({message: "Username and password required"});
+    if(!password) return res.status(400).json({message: "Username and password required"});
+    
     const userExists = await authModel.getByUsername(username);
+    console.log(userExists)
     if(userExists) return res.status(400).json({message: "Username taken"});
 
     const user = await authModel.createUser(username, password);
