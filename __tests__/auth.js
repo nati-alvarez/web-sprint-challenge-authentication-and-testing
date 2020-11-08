@@ -11,6 +11,10 @@ describe("Register route tests", ()=>{
         await db.seed.run();
     });
 
+    beforeEach(async()=>{
+        await db.seed.run();
+    });
+
     it("Should return 400 if username and password not given", async()=>{
         let res = await request(server).post("/api/auth/register").send({});
         expect(res.status).toBe(400);
@@ -25,7 +29,7 @@ describe("Register route tests", ()=>{
     it("Should return 400 if username is taken", async()=>{
         const res = await request(server).post("/api/auth/register").send({username: "Bob", password:"supersecret"});
         
-        expect(res.status).toBe(400);
+        expect(res.status).toBe(400); 
         expect(res.body.message).toBe("Username taken");
     });
 
