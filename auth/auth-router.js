@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const authModel = require("./auth-model");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 router.post('/register', async (req, res) => {
   const {username, password} = req.body;
@@ -25,8 +26,10 @@ router.post('/login', async (req, res) => {
   const user = await authModel.getByUsername(username);
   if(!user) return res.status(401).json({message: "Incorrect username or password"});
   if(!bcrypt.compareSync(password, user.password)) return res.status(401).json({message: "Incorrect username or password"});
-
-  res.status(200).json(user);
+  
+  const tokenPayload = {subject: user.id, userame: user.username};
+  const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {expiresIn: "1d"});
+  res.status(200).json({token});
 });
 
 module.exports = router;
