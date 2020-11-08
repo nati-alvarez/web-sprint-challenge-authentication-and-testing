@@ -2,12 +2,12 @@ const request = require("supertest");
 const server = require("../api/server");
 const db = require("../database/dbConfig");
 
-afterAll(()=>{
-    db.destroy();
+afterAll(async()=>{
+    await db.destroy();
 })
 
 describe("Register route tests", ()=>{
-    beforeEach(async ()=>{
+    afterEach(async()=>{
         await db.seed.run();
     });
 
@@ -57,7 +57,6 @@ describe("Login route tests", ()=>{
 
     it("Should return token if login successful", async()=>{
         const res = await request(server).post("/api/auth/login").send({username: "Bob", password: "password"});
-        console.log(res.body)
         expect(res.body.token).toBeDefined();
     });
 });
