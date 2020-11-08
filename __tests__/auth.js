@@ -52,5 +52,6 @@ describe("Login route tests", ()=>{
         let res = await request(server).post("/api/auth/login").send({username: "Bob", password: "nottherightpassword"});
         expect(res.status).toBe(401);
         res = await request(server).post("/api/auth/login").send({username: "Userthatdoesntexist", password: "password"});
+        expect(res.status).toBe(401);
     })
 });
